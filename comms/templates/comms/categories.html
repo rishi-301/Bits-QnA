@@ -1,0 +1,28 @@
+{% extends 'comms/base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+{% if user.is_authenticated %}
+    {% if category_qns %}
+        <h3>{{ cats }}</h1>
+        {% for qn in category_qns %}
+                
+                <li><a href="{% url 'detail' qn.pk %}">{{ qn.title }}</a> - {{ qn.author.first_name}} {{qn.author.last_name}} - BITS ID: {{ qn.author.profile.BITS_ID}}<br>
+                <p>Click above to view, rate or answer question </p>  Avg Rating: {{ qn.avg_rating}}
+                </li>  
+
+        {% endfor %}
+        <br><br>
+
+        <a href="{% url 'category-det' %}" class="btn btn-secondary">Back</a>
+
+    {% else %}
+        <h2>Sorry, this page doesn't exist</h2>
+    {% endif %}
+    
+{% else %}
+    You're not logged in! Please login. <br/><br/>
+    <a href="{% url 'login' %}" class="btn btn-secondary">Login</a>
+{% endif %}
+
+{% endblock %}

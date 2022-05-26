@@ -1,0 +1,75 @@
+{% extends 'comms/base.html' %}
+{% load crispy_forms_tags %}
+{% load socialaccount %}
+{% block title %}
+    {% if user.is_authenticated %}
+        {{ question.title }}
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+
+    {% if user.is_authenticated %}
+        <h1>{{ question.title }}</h1>
+        <small>By: {{ question.author.first_name }} 
+            {{ question.author.last_name }} on {{ question.date_posted}}</small>
+        <hr>
+        {{ question.body|safe}}
+        
+        <br>
+        {% if rated == 0 %}
+            <form class="d-flex" method=POST>
+                {% csrf_token %}
+                {{ rform|crispy }}
+
+                <button class="btn btn-secondary" type="submit">Rate</button>
+            </form>
+        {% else %}
+            <small>You have already rated it</small>
+        </form>
+        <br><br>
+        {% endif %}
+
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            
+                <legend class="border-bottom mb-4">Answer:</legend>
+                {{ cform.media }}
+                {{ cform.as_p }}
+
+            <div class="form-group">
+                <button class="btn btn-primary" type="submit" >Answer</button>
+            </div>
+
+
+        </form>
+        <hr>
+        <h2>Comments:</h2>
+        <ol>
+        {% for comment in comments %}
+            <li>
+                <article class="media content-section">
+                    <div class="media-body">
+                        <div class="article-metadata">
+                            <p>{{ comment.body|safe }}</p>
+                        </div>
+                        <h6>Written by {{ comment.author.first_name }} {{ comment.author.last_name }} on {{ comment.date_posted}}</h6>
+                    </div>
+                </article>
+            </li>
+        {% endfor %}
+        </ol>
+        <hr>
+        <a href="{% url 'category' question.category %}" class="btn btn-secondary">Back</a>
+
+        <a  class="btn btn-danger" href="{% url 'report_confirm' question.id %}">Report</a>
+        {% if user.is_superuser %}
+            <a  class="btn btn-danger" href="{% url 'qn_delete' question.id %}">Delete</a>
+        {% endif %}
+    {% else %}
+        You're not logged in! Please login. <br/><br/>
+        <a href="{% url 'login' %}" class="btn btn-secondary">Login</a>
+    {% endif %}
+
+
+{% endblock %}

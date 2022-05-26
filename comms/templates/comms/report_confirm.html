@@ -1,0 +1,13 @@
+{% extends 'comms/base.html' %}
+{% block content %}
+
+    <form class="d-flex" method=POST>
+        {% csrf_token %}
+
+            <button type="submit" class="btn btn-outline-danger">Report</button>
+            <a  class="btn btn-outline-secondary" href="{% url 'detail' question.id %}">Cancel</a>
+       </form>
+
+
+
+{% endblock%}

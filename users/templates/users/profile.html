@@ -1,0 +1,24 @@
+{% extends 'comms/base.html' %}
+{% block title %}Profile{% endblock %}
+{% block content %}
+    
+<div class="content-section">
+    <div class="media">
+        
+        <img class="rounded-circle account-img" src="{{ img }}" ><hr>
+        <div class="media-body">
+            <h3 class="account-heading">{{ user.username}}</h2>
+            <p class="text-secondary">
+                {{ user.first_name }} {{user.last_name}} <br>
+                Email:     {{ user.email }} <br>
+                BITS ID:   {{user.profile.BITS_ID}} <br>
+                Hostel:    {{user.profile.hostel_name}} <br>
+                Room No:   {{user.profile.room}} <br>
+                Mobile No: {{user.profile.mob}} <br>
+            </p>
+        </div>
+    </div>
+    <a href="{% url 'profile-update' %}">Update Profile</a>
+</div>
+
+{% endblock %}

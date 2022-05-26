@@ -1,0 +1,27 @@
+{% extends 'comms/base.html' %}
+{% load socialaccount %}
+{% block content %}
+
+    <h1>Reported Posts</h1>
+    <ol>
+        {% for qn in question %}
+        <li>
+            <article class="media content-section">
+                <div class="media-body">
+                    <div class="article-metadata">
+                        <a class="mr-2" href="{% url 'detail' qn.id %}">{{ qn.title }}</a>
+                        <p> Category: {{ qn.category}}</p>
+                    </div>
+                    <p class="article-content">{{ qn.body|safe }}</p>
+                    <p>Created by {{ qn.author.first_name }} {{ qn.author.last_name}} on {{ qn.date_posted}}</p> 
+                </div>
+            </article>
+            
+        </li>
+        {% endfor %}
+    </ol>
+
+
+
+
+{% endblock%}
